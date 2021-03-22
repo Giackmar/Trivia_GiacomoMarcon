@@ -25,6 +25,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -108,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //metodo sopra sostituisce i caratteri html speciali in caratteri java
             return json;
         }
 
@@ -139,6 +140,15 @@ public class MainActivity extends AppCompatActivity {
             String correct_answer = questionJson.getString("correct_answer");
             JSONArray incorrect_answers_json = questionJson.getJSONArray("incorrect_answers");
             ArrayList<String> incorrect_answers = new ArrayList<>();
+            for (String s:incorrect_answers
+                 ) {
+                s = unescapeHtml4(s);
+            }
+            category = unescapeHtml4(category);
+            type = unescapeHtml4(type);
+            difficulty = unescapeHtml4(difficulty);
+            question = unescapeHtml4(question);
+            correct_answer = unescapeHtml4(correct_answer);
             for(int a=0; a<incorrect_answers_json.length();a++)
             {
                 incorrect_answers.add(incorrect_answers_json.getString(a));

@@ -11,6 +11,10 @@ public class Question {
     String correct_answer;
     ArrayList<String> answers;
 
+    //question stats
+    int code;
+    int time;
+
     public Question(String category, String type, String difficulty, String question, String correct_answer, ArrayList<String> answers)
     {
         this.category = category;
@@ -44,5 +48,24 @@ public class Question {
 
     public ArrayList<String> getAnswers() {
         return answers;
+    }
+
+    //question stats
+
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public int getTime() {
+        return time;
     }
 }

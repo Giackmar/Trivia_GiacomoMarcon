@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RaceAgainstTimeSetting">
+
+
+    <TextView
+        android:id="@+id/tv_RATS_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_RATS_timePerQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="84dp"
+        android:text="Time per question (sec):"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_RATS_questionsCounter" />
+
+    <TextView
+        android:id="@+id/tv_RATS_questionsCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="162dp"
+        android:text="Number of questions:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_RATS_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="80dp"
+        android:text="Category:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_RATS_timePerQuestion" />
+
+    <Button
+        android:id="@+id/btn_RATS_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/etn_RATS_timePerQuestion"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="56dp"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="2"
+        android:text="10"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/tv_RATS_timePerQuestion"
+        app:layout_constraintTop_toBottomOf="@+id/etn_RATS_questionsCounter" />
+
+    <EditText
+        android:id="@+id/etn_RATS_questionsCounter"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="70dp"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="2"
+        android:text="10"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/tv_RATS_questionsCounter"
+        app:layout_constraintTop_toBottomOf="@+id/tv_RATS_title" />
+
+    <ListView
+        android:id="@+id/lv_RATS_topics"
+        android:layout_width="192dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_RATS_start"
+        app:layout_constraintStart_toEndOf="@+id/tv_RATS_category"
+        app:layout_constraintTop_toBottomOf="@+id/tv_RATS_selectedCategory" />
+
+    <TextView
+        android:id="@+id/tv_RATS_selectedCategory"
+        android:layout_width="183dp"
+        android:layout_height="18dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="70dp"
+        android:text="Any Category"
+        app:layout_constraintStart_toEndOf="@+id/tv_RATS_category"
+        app:layout_constraintTop_toBottomOf="@+id/etn_RATS_timePerQuestion" />
+</androidx.constraintlayout.widget.ConstraintLayout>

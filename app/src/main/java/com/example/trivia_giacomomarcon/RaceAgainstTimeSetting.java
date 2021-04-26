@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -56,6 +57,14 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
                 tv_RATS_selectedCategory.setText(anyCategory.get(position));
             }
             });
+
+        lv_RATS_category.setOnScrollListener(new AbsListView.OnScrollListener(){
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                tv_RATS_selectedCategory.setText(anyCategory.get(lv_RATS_category.getFirstVisiblePosition()));
+            }
+        });
 
 
         btn_RATS_start.setOnClickListener(new View.OnClickListener() {

@@ -27,10 +27,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent raceAgainstTimeSetting = new Intent(MainActivity.this, RaceAgainstTimeSetting.class);
                 startActivity(raceAgainstTimeSetting);
-                finish();
             }
         });
     }
-
-
 }

@@ -79,7 +79,6 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
                     raceAgainstTime.putExtra("questionsCounter", questionsCounter);
                     raceAgainstTime.putExtra("timePerQuestion", timePerQuestion);
                     startActivity(raceAgainstTime);
-                    finish();
                 }
             }
         });

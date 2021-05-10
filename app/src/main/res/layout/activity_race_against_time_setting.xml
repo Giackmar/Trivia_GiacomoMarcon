@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Settings"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,6 +27,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="84dp"
         android:text="Time per question (sec):"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_RATS_questionsCounter" />
 
@@ -36,6 +38,7 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="162dp"
         android:text="Number of questions:"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,7 +50,8 @@
         android:layout_marginTop="80dp"
         android:text="Category:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_RATS_timePerQuestion" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_RATS_timePerQuestion"
+        android:textSize="20sp" />
 
     <Button
         android:id="@+id/btn_RATS_start"
@@ -101,10 +105,11 @@
     <TextView
         android:id="@+id/tv_RATS_selectedCategory"
         android:layout_width="183dp"
-        android:layout_height="18dp"
+        android:layout_height="0dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="80dp"
         android:text="Any Category"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/tv_RATS_category"
         app:layout_constraintTop_toBottomOf="@+id/etn_RATS_timePerQuestion" />
 </androidx.constraintlayout.widget.ConstraintLayout>

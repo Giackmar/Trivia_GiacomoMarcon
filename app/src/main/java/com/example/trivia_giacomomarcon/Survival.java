@@ -3,8 +3,8 @@ package com.example.trivia_giacomomarcon;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
@@ -26,16 +27,17 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
 import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 
-public class RaceAgainstTime extends AppCompatActivity {
+public class Survival extends AppCompatActivity {
 
     //parametri input da "impostazioni"
     String category;
-    int questionsCounter;
-    int timePerQuestion;
+    String difficulty;
 
     ArrayList<String> categories;
 
@@ -45,30 +47,34 @@ public class RaceAgainstTime extends AppCompatActivity {
 
     String url;
 
-    CountDownTimer timer;
-    int timeUntilFinished;
 
-    TextView tv_RAT_timer;
-    TextView tv_RAT_question;
-    ListView lv_RAT_answers;
+    TextView tv_S_lifeCounter;
+    TextView tv_S_score;
+    TextView tv_S_question;
+    ListView lv_S_answers;
 
-    TextView tv_RATST_title;
-    TextView tv_RATST_meanResponseTime;
-    TextView tv_RATST_answers;
-    Button b_RATST_restart;
-    Button b_RATST_home;
+    //STATS
+    TextView tv_SST_title;
+    TextView tv_SST_meanResponseTime;
+    TextView tv_SST_answers;
+    Button b_SST_restart;
+    Button b_SST_home;
+    int questionsCounter = 20;
+
+    Instant start;
+    Instant end;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_race_against_time);
+        setContentView(R.layout.activity_survival);
 
         //carico i dati passati dall'altra activity
         Intent intent = getIntent();
         category = intent.getStringExtra("category");
-        questionsCounter = intent.getIntExtra("questionsCounter",10);
-        timePerQuestion = intent.getIntExtra("timePerQuestion",10);
+        difficulty = intent.getStringExtra("difficulty");
 
         //carico le categorie nell'arrayList
         categories = new ArrayList<String>();
@@ -78,39 +84,46 @@ public class RaceAgainstTime extends AppCompatActivity {
         url = generateUrl();
 
         //collego grafica a codice
-        tv_RAT_timer = findViewById(R.id.tv_RAT_timer);
-        tv_RAT_question = findViewById(R.id.tv_RAT_question);
-        lv_RAT_answers = findViewById(R.id.lv_RAT_answers);
-
+        tv_S_lifeCounter = findViewById(R.id.tv_S_lifeCounter);
+        tv_S_score = findViewById(R.id.tv_S_score);
+        tv_S_question = findViewById(R.id.tv_S_question);
+        lv_S_answers = findViewById(R.id.lv_S_answers);
 
         //variabili per gestione delle domande-risposte
         questions = new ArrayList<>();
         currentQuestionNumber = -1;
-        timeUntilFinished = 0;
 
-        //scarico i dati (le domande e risposte)
         try {
             loadData();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-
-        lv_RAT_answers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_S_answers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (winOrLose(questions.get(currentQuestionNumber).getAnswers().get(position))) {
                     endQuestion(1);
                 }
                 else
+                {
                     endQuestion(2);
+                }
             }
         });
     }
 
-
     String generateUrl() {
-        String myUrl = "https://opentdb.com/api.php?amount="+questionsCounter+"&category="+ getCategoryCode();
+        String myUrl = "https://opentdb.com/api.php?amount="+questionsCounter;
+        if(!category.equals("Any Category"))
+        {
+            myUrl+="&category="+ getCategoryCode();
+        }
+        if(!difficulty.equals("Any Difficulty"))
+        {
+            myUrl+="&difficulty="+difficulty.toLowerCase();
+        }
         return myUrl;
     }
 
@@ -151,27 +164,21 @@ public class RaceAgainstTime extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void startQuestion() {
         loadQuestion();
-        timer = new CountDownTimer((timePerQuestion+1)*1000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                tv_RAT_timer.setText("Remaining time\n             " + millisUntilFinished / 1000);
-                timeUntilFinished = (int)millisUntilFinished/1000;
-            }
-
-            public void onFinish() {
-                tv_RAT_timer.setText("done!");
-                endQuestion(0);
-            }
-
-        }.start();
+        start = Instant.now() ;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     void endQuestion(int code) {
         questions.get(currentQuestionNumber).setCode(code);
-        questions.get(currentQuestionNumber).setTime(timePerQuestion-timeUntilFinished);
-        timer.cancel();
+        end = Instant.now();
+        Duration elapsedTime_duration = Duration.between(start,end);
+        String elapsedTime_string = elapsedTime_duration.toString();
+        elapsedTime_string = elapsedTime_string.replace("PT","").replace("S","");
+        double elapsedTime = Double.parseDouble(elapsedTime_string);
+        questions.get(currentQuestionNumber).setElapseTime(elapsedTime);
         if(currentQuestionNumber==questionsCounter-1)
         {
             loadStatsLayout();
@@ -182,29 +189,29 @@ public class RaceAgainstTime extends AppCompatActivity {
 
 
     void loadStatsLayout() {
-        setContentView(R.layout.activity_race_against_time_stats);
+        setContentView(R.layout.activity_survival_stats);
 
-        tv_RATST_title = findViewById(R.id.tv_RATST_title);
-        tv_RATST_meanResponseTime = findViewById(R.id.tv_RATST_meanResponseTime);
-        tv_RATST_answers = findViewById(R.id.tv_RATST_answers);
-        b_RATST_restart = findViewById(R.id.b_RATST_restart);
-        b_RATST_home = findViewById(R.id.b_RATST_home);
-        tv_RATST_title.setText("Game stats");
-        tv_RATST_meanResponseTime.setText(meanResponseTime());
-        tv_RATST_answers.setText(answerStats());
+        tv_SST_title = findViewById(R.id.tv_SST_title);
+        tv_SST_meanResponseTime = findViewById(R.id.tv_SST_meanResponseTime);
+        tv_SST_answers = findViewById(R.id.tv_SST_answers);
+        b_SST_restart = findViewById(R.id.b_SST_restart);
+        b_SST_home = findViewById(R.id.b_SST_home);
+        tv_SST_title.setText("Game stats");
+        tv_SST_meanResponseTime.setText(meanResponseTime());
+        tv_SST_answers.setText(answerStats());
 
-        b_RATST_restart.setOnClickListener(new View.OnClickListener() {
+        b_SST_restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent restart = new Intent(RaceAgainstTime.this, RaceAgainstTimeSetting.class);
+                Intent restart = new Intent(Survival.this, RaceAgainstTimeSetting.class);
                 startActivity(restart);
                 finish();
             }
         });
-        b_RATST_home.setOnClickListener(new View.OnClickListener() {
+        b_SST_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent home = new Intent(RaceAgainstTime.this, MainActivity.class);
+                Intent home = new Intent(Survival.this, MainActivity.class);
                 startActivity(home);
                 finish();
             }
@@ -212,36 +219,21 @@ public class RaceAgainstTime extends AppCompatActivity {
     }
 
     String meanResponseTime(){
-        int timeSum = 0;
-        boolean trueData = false;
+        double timeSum = 0;
         for (Question question:questions
-             ) {
-            if(question.getCode()!=0) {
-                timeSum += question.getTime();
-                trueData = true;
-            }
+        ) {
+            timeSum += question.getElapseTime();
         }
-        int meanTime = timeSum/questionsCounter;
-        if(!trueData){
-            return "Mean response time: insufficient data";
-        }
-        if(meanTime==0){
-            return "Mean response time: <1 sec";
-        }
+        double meanTime = timeSum/questionsCounter;
         return "Mean response time: "+meanTime+" sec";
     }
 
     String answerStats(){
         int correctAnswersCount = 0;
         int incorrectAnswersCount = 0;
-        int notGivenAnswersCount = 0;
         for (Question question:questions
-             ) {
-            if(question.getCode()==0)
-            {
-                notGivenAnswersCount++;
-            }
-            else if(question.getCode()==1)
+        ) {
+            if(question.getCode()==1)
             {
                 correctAnswersCount++;
             }
@@ -250,59 +242,61 @@ public class RaceAgainstTime extends AppCompatActivity {
                 incorrectAnswersCount++;
             }
         }
-        String result = "Correct answers: "+correctAnswersCount+"\nIncorrect answers: "+incorrectAnswersCount+"\nNot given answers: "+notGivenAnswersCount;
+        int score = correctAnswersCount+incorrectAnswersCount;
+        String result = "Total score: "+score+"\nCorrect answers: "+correctAnswersCount+"\nIncorrect answers: "+incorrectAnswersCount;
         return result;
     }
 
 
     public void loadData() throws MalformedURLException {
-        DownloadInternet downloadInternet = new DownloadInternet();
+        Survival.DownloadInternet downloadInternet = new Survival.DownloadInternet();
         URL myUrl = new URL(url);
         downloadInternet.execute(myUrl);
     }
 
-    class DownloadInternet extends AsyncTask<URL, String, String> {
+    private class DownloadInternet extends AsyncTask<URL, String, String> {
 
-            final ProgressDialog dialog = new ProgressDialog(RaceAgainstTime.this);
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                dialog.setMessage("Loading data...");
-                dialog.show();
-            }
-
-            @Override
-            protected String doInBackground(URL... strings) {
-
-                String json = "";
-
-                try {
-                    HttpURLConnection conn = (HttpURLConnection) strings[0].openConnection();
-                    BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String line;
-                    while ((line = in.readLine()) != null) {
-                        json += line;
-                    }
-                    in.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return json;
-            }
-
-            @Override
-            protected void onPostExecute(String strings) {
-
-                dialog.dismiss();
-                try {
-                    parsingJson(strings);
-                    startQuestion();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
+        final ProgressDialog dialog = new ProgressDialog(Survival.this);
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.setMessage("Loading data...");
+            dialog.show();
         }
+
+        @Override
+        protected String doInBackground(URL... strings) {
+
+            String json = "";
+
+            try {
+                HttpURLConnection conn = (HttpURLConnection) strings[0].openConnection();
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line;
+                while ((line = in.readLine()) != null) {
+                    json += line;
+                }
+                in.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return json;
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
+        @Override
+        protected void onPostExecute(String strings) {
+
+            dialog.dismiss();
+            try {
+                parsingJson(strings);
+                startQuestion();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     public void parsingJson(String json) throws JSONException {
         JSONObject jsonData = new JSONObject(json);
@@ -318,7 +312,7 @@ public class RaceAgainstTime extends AppCompatActivity {
             JSONArray incorrect_answers_json = questionJson.getJSONArray("incorrect_answers");
             ArrayList<String> incorrect_answers = new ArrayList<>();
             for (String s:incorrect_answers
-                 ) {
+            ) {
                 s = unescapeHtml4(s);
             }
             category = unescapeHtml4(category);
@@ -338,7 +332,7 @@ public class RaceAgainstTime extends AppCompatActivity {
     public void loadQuestion() {
         currentQuestionNumber++;
         Question currentQuestion = questions.get(currentQuestionNumber);
-        tv_RAT_question.setText(currentQuestion.getQuestion());
+        tv_S_question.setText(currentQuestion.getQuestion());
         adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.row, R.id.textView_answer, currentQuestion.getAnswers()) {
             @NonNull
             @Override
@@ -349,7 +343,7 @@ public class RaceAgainstTime extends AppCompatActivity {
                 return view;
             }
         };
-        lv_RAT_answers.setAdapter(adapter);
+        lv_S_answers.setAdapter(adapter);
     }
 
     public boolean winOrLose(String answer) {
@@ -363,8 +357,8 @@ public class RaceAgainstTime extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent raceAgainstTimeSetting = new Intent(RaceAgainstTime.this, RaceAgainstTimeSetting.class);
-        startActivity(raceAgainstTimeSetting);
+        Intent survivalSetting = new Intent(Survival.this, SurvivalSetting.class);
+        startActivity(survivalSetting);
         finish();
     }
 }

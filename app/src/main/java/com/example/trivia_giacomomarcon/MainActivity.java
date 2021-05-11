@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -26,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         btn_RaceAgainstTime = findViewById(R.id.btn_RaceAgainstTime);
-        btn_ChooseTheRightAnswer = findViewById(R.id.btn_ChooseTheRightAnswer);
+        btn_ChooseTheRightAnswer = findViewById(R.id.btn_Survival);
 
 
         btn_RaceAgainstTime.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         btn_ChooseTheRightAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "This feature is still on development", Toast.LENGTH_SHORT).show();
+                Intent survivalSetting = new Intent(MainActivity.this, SurvivalSetting.class);
+                startActivity(survivalSetting);
+                finish();
             }
         });
     }

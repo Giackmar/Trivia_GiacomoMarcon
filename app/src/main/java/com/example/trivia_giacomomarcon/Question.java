@@ -14,6 +14,7 @@ public class Question {
     //question stats
     int code;
     int time;
+    double elapseTime;
 
     public Question(String category, String type, String difficulty, String question, String correct_answer, ArrayList<String> answers)
     {
@@ -61,11 +62,19 @@ public class Question {
         this.time = time;
     }
 
+    public void setElapseTime(double elapseTime) {
+        this.elapseTime = elapseTime;
+    }
+
     public int getCode() {
         return code;
     }
 
     public int getTime() {
         return time;
+    }
+
+    public double getElapseTime() {
+        return elapseTime;
     }
 }

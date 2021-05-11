@@ -3,7 +3,6 @@ package com.example.trivia_giacomomarcon;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.NumberPicker;
 
@@ -34,8 +33,8 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
         btn_RATS_start = findViewById(R.id.btn_RATS_start);
 
         //valori di default
-        questionsCounter = 1;
-        timePerQuestion = 1;
+        questionsCounter = 10;
+        timePerQuestion = 10;
         selectedCategory = "Any Category";
 
         anyCategory = new ArrayList<>();
@@ -44,7 +43,6 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
 
         loadCategory();
 
-        ArrayAdapter myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1,anyCategory);
 
         btn_RATS_start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +93,7 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
                 questionsCounter = arrayInt_questionsCounter[newVal];
             }
         };
+        np_RATS_questionsCounter.setValue(9);
         np_RATS_questionsCounter.setOnValueChangedListener(myValChangedListener_questionsCounter);
 
         np_RATS_timePerQuestion= (NumberPicker) findViewById(R.id.np_RATS_timePerQuestion);
@@ -117,6 +116,7 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
                 timePerQuestion = arrayInt_timePerQuestion[newVal];
             }
         };
+        np_RATS_timePerQuestion.setValue(9);
         np_RATS_timePerQuestion.setOnValueChangedListener(myValChangedListener_timePerQuestion);
     }
 

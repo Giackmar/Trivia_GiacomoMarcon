@@ -305,6 +305,7 @@ public class RaceAgainstTime extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+
         }
 
     public void parsingJson(String json) throws JSONException {
@@ -362,5 +363,12 @@ public class RaceAgainstTime extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent raceAgainstTimeSetting = new Intent(RaceAgainstTime.this, RaceAgainstTimeSetting.class);
+        startActivity(raceAgainstTimeSetting);
+        finish();
     }
 }

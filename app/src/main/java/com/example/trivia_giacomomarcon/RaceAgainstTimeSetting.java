@@ -40,6 +40,8 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
         timePerQuestion = 0;
         anyCategory = new ArrayList<>();
 
+        selectedCategory = "Any Category";
+
         loadCategory();
 
         ArrayAdapter myAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1,anyCategory);

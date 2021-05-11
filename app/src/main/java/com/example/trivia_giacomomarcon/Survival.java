@@ -66,6 +66,9 @@ public class Survival extends AppCompatActivity {
     Instant start;
     Instant end;
 
+    int life = 3;
+    int score = 0;
+
 
 
     @Override
@@ -178,11 +181,26 @@ public class Survival extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     void startQuestion() {
         loadQuestion();
+        tv_S_lifeCounter.setText("Life "+life);
+        tv_S_score.setText("Score "+score);
         start = Instant.now() ;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     void endQuestion(int code) {
+        if(code==2) {
+            life--;
+            tv_S_lifeCounter.setText("Life "+life);
+            if(life==0) {
+                loadStatsLayout();
+                return;
+            }
+        }
+        else
+        {
+            score++;
+            tv_S_score.setText("Score "+score);
+        }
         questions.get(currentQuestionNumber).setCode(code);
         end = Instant.now();
         Duration elapsedTime_duration = Duration.between(start,end);
@@ -214,7 +232,7 @@ public class Survival extends AppCompatActivity {
         b_SST_restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent restart = new Intent(Survival.this, RaceAgainstTimeSetting.class);
+                Intent restart = new Intent(Survival.this, SurvivalSetting.class);
                 startActivity(restart);
                 finish();
             }
@@ -236,6 +254,7 @@ public class Survival extends AppCompatActivity {
             timeSum += question.getElapseTime();
         }
         double meanTime = timeSum/questionsCounter;
+        meanTime = Math.floor(meanTime * 100.0) / 100.0;
         return "Mean response time: "+meanTime+" sec";
     }
 
@@ -253,8 +272,7 @@ public class Survival extends AppCompatActivity {
                 incorrectAnswersCount++;
             }
         }
-        int score = correctAnswersCount+incorrectAnswersCount;
-        String result = "Total score: "+score+"\nCorrect answers: "+correctAnswersCount+"\nIncorrect answers: "+incorrectAnswersCount;
+        String result = "Total score: "+score;
         return result;
     }
 

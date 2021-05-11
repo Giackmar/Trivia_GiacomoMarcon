@@ -2,11 +2,9 @@ package com.example.trivia_giacomomarcon;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.NumberPicker;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +13,6 @@ import java.util.ArrayList;
 
 public class RaceAgainstTimeSetting extends AppCompatActivity {
 
-    EditText etn_RATS_questionsCounter;
-    EditText etn_RATS_timePerQuestion;
     Button btn_RATS_start;
 
     int questionsCounter;
@@ -26,21 +22,25 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
 
 
     NumberPicker np_RATS_categories;
+    NumberPicker np_RATS_questionsCounter;
+    NumberPicker np_RATS_timePerQuestion;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_race_against_time_setting);
 
-        etn_RATS_questionsCounter = findViewById(R.id.etn_RATS_questionsCounter);
-        etn_RATS_timePerQuestion = findViewById(R.id.etn_RATS_timePerQuestion);
         btn_RATS_start = findViewById(R.id.btn_RATS_start);
 
-        questionsCounter = 0;
-        timePerQuestion = 0;
+        //valori di default
+        questionsCounter = 1;
+        timePerQuestion = 1;
+        selectedCategory = "Any Category";
+
         anyCategory = new ArrayList<>();
 
-        selectedCategory = "Any Category";
+
 
         loadCategory();
 
@@ -49,9 +49,6 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
         btn_RATS_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadSetting();
-                if(questionsCounter>0 && timePerQuestion>0)
-                {
                     Intent raceAgainstTime = new Intent(RaceAgainstTimeSetting.this, RaceAgainstTime.class);
 
                     raceAgainstTime.putExtra("category", selectedCategory);
@@ -59,7 +56,6 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
                     raceAgainstTime.putExtra("timePerQuestion", timePerQuestion);
                     startActivity(raceAgainstTime);
                     finish();
-                }
             }
         });
 
@@ -79,27 +75,52 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
         };
         np_RATS_categories.setOnValueChangedListener(myValChangedListener);
 
+        np_RATS_questionsCounter= (NumberPicker) findViewById(R.id.np_RATS_questionsCounter);
+        int questionsCounterMaxValue = 50;
+        int[] arrayInt_questionsCounter = new int[questionsCounterMaxValue];
+        String[] arrayString_questionsCounter = new String[questionsCounterMaxValue];
+        for(int i=0; i<questionsCounterMaxValue; i++)
+        {
+            arrayInt_questionsCounter[i] = i+1;
+            arrayString_questionsCounter[i] = Integer.toString(i+1);
+        }
+        np_RATS_questionsCounter.setMinValue(0);
+        np_RATS_questionsCounter.setMaxValue(questionsCounterMaxValue - 1);
+        np_RATS_questionsCounter.setDisplayedValues(arrayString_questionsCounter);
+        np_RATS_questionsCounter.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np_RATS_questionsCounter.setWrapSelectorWheel(false);
+        NumberPicker.OnValueChangeListener myValChangedListener_questionsCounter = new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                questionsCounter = arrayInt_questionsCounter[newVal];
+            }
+        };
+        np_RATS_questionsCounter.setOnValueChangedListener(myValChangedListener_questionsCounter);
+
+        np_RATS_timePerQuestion= (NumberPicker) findViewById(R.id.np_RATS_timePerQuestion);
+        int timePerQuestionMaxValue = 30;
+        int[] arrayInt_timePerQuestion = new int[timePerQuestionMaxValue];
+        String[] arrayString_timePerQuestion = new String[timePerQuestionMaxValue];
+        for(int i=0; i<timePerQuestionMaxValue; i++)
+        {
+            arrayInt_timePerQuestion[i] = i+1;
+            arrayString_timePerQuestion[i] = Integer.toString(i+1);
+        }
+        np_RATS_timePerQuestion.setMinValue(0);
+        np_RATS_timePerQuestion.setMaxValue(timePerQuestionMaxValue - 1);
+        np_RATS_timePerQuestion.setDisplayedValues(arrayString_timePerQuestion);
+        np_RATS_timePerQuestion.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np_RATS_timePerQuestion.setWrapSelectorWheel(false);
+        NumberPicker.OnValueChangeListener myValChangedListener_timePerQuestion = new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                timePerQuestion = arrayInt_timePerQuestion[newVal];
+            }
+        };
+        np_RATS_timePerQuestion.setOnValueChangedListener(myValChangedListener_timePerQuestion);
     }
 
-    void loadSetting()
-    {
-        if(!TextUtils.isEmpty(etn_RATS_questionsCounter.getText().toString()))
-        {
-            questionsCounter = Integer.parseInt(etn_RATS_questionsCounter.getText().toString());
-        }
-        else
-        {
-            questionsCounter = 0;
-        }
-        if(!TextUtils.isEmpty(etn_RATS_timePerQuestion.getText().toString()))
-        {
-            timePerQuestion = Integer.parseInt(etn_RATS_timePerQuestion.getText().toString());
-        }
-        else
-        {
-            timePerQuestion = 0;
-        }
-    }
+
 
     void loadCategory()
     {

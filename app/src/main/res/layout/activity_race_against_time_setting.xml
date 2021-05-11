@@ -9,11 +9,20 @@
     tools:context=".RaceAgainstTimeSetting">
 
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tv_RATS_title"
+        tools:layout_editor_absoluteX="0dp" />
+
     <TextView
         android:id="@+id/tv_RATS_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="Settings"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -27,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginTop="100dp"
         android:text="Time per question (sec):"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -39,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="162dp"
+        android:layout_marginTop="180dp"
         android:text="Number of questions:"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -51,7 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="110dp"
         android:text="Category:"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -70,45 +79,37 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/etn_RATS_timePerQuestion"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="56dp"
-        android:ems="10"
-        android:inputType="number"
-        android:maxLength="2"
-        android:text="10"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/tv_RATS_timePerQuestion"
-        app:layout_constraintTop_toBottomOf="@+id/etn_RATS_questionsCounter" />
-
-    <EditText
-        android:id="@+id/etn_RATS_questionsCounter"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="70dp"
-        android:ems="10"
-        android:inputType="number"
-        android:maxLength="2"
-        android:text="10"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/tv_RATS_questionsCounter"
-        app:layout_constraintTop_toBottomOf="@+id/tv_RATS_title" />
-
     <NumberPicker
         android:id="@+id/np_RATS_categories"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="5dp"
         android:orientation="vertical"
         android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_RATS_category"
         app:layout_constraintStart_toEndOf="@+id/tv_RATS_category"
-        app:layout_constraintTop_toBottomOf="@+id/tv_RATS_timePerQuestion" />
+        app:layout_constraintTop_toTopOf="@+id/tv_RATS_category" />
+
+    <NumberPicker
+        android:id="@+id/np_RATS_timePerQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_marginStart="20dp"
+        android:orientation="vertical"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_RATS_timePerQuestion"
+        app:layout_constraintStart_toEndOf="@+id/tv_RATS_timePerQuestion"
+        app:layout_constraintTop_toTopOf="@+id/tv_RATS_timePerQuestion" />
+
+    <NumberPicker
+        android:id="@+id/np_RATS_questionsCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_marginStart="20dp"
+        android:orientation="vertical"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_RATS_questionsCounter"
+        app:layout_constraintStart_toEndOf="@+id/tv_RATS_questionsCounter"
+        app:layout_constraintTop_toTopOf="@+id/tv_RATS_questionsCounter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

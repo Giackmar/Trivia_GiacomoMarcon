@@ -160,7 +160,7 @@ public class RaceAgainstTime extends AppCompatActivity {
         timer = new CountDownTimer((timePerQuestion+1)*1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                tv_RAT_timer.setText("Seconds remaining: " + millisUntilFinished / 1000);
+                tv_RAT_timer.setText("Remaining time\n             " + millisUntilFinished / 1000);
                 timeUntilFinished = (int)millisUntilFinished/1000;
             }
 

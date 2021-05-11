@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setDefaultNightMode( AppCompatDelegate.MODE_NIGHT_YES);
 
+
         btn_RaceAgainstTime = findViewById(R.id.btn_RaceAgainstTime);
         btn_ChooseTheRightAnswer = findViewById(R.id.btn_ChooseTheRightAnswer);
 
@@ -43,14 +44,5 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "This feature is still on development", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public boolean internetIsConnected() {
-        try {
-            String command = "ping -c 1 google.com";
-            return (Runtime.getRuntime().exec(command).waitFor() == 0);
-        } catch (Exception e) {
-            return false;
-        }
     }
 }

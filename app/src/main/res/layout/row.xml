@@ -32,9 +32,19 @@
                 android:id="@+id/textView_answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/rectangle"
                 android:hapticFeedbackEnabled="false"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="5sp"
+                android:text="TextView" />
 
         </LinearLayout>
     </LinearLayout>

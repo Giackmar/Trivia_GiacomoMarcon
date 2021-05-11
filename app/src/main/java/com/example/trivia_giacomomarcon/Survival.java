@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,7 @@ public class Survival extends AppCompatActivity {
     //parametri input da "impostazioni"
     String category;
     String difficulty;
+    String type;
 
     ArrayList<String> categories;
 
@@ -59,7 +61,7 @@ public class Survival extends AppCompatActivity {
     TextView tv_SST_answers;
     Button b_SST_restart;
     Button b_SST_home;
-    int questionsCounter = 20;
+    int questionsCounter = 10;
 
     Instant start;
     Instant end;
@@ -74,6 +76,7 @@ public class Survival extends AppCompatActivity {
         //carico i dati passati dall'altra activity
         Intent intent = getIntent();
         category = intent.getStringExtra("category");
+        type = intent.getStringExtra("type");
         difficulty = intent.getStringExtra("difficulty");
 
         //carico le categorie nell'arrayList
@@ -81,7 +84,7 @@ public class Survival extends AppCompatActivity {
         loadCategory();
 
         //genero il mio url
-        url = generateUrl();
+        url = generateUrl(questionsCounter);
 
         //collego grafica a codice
         tv_S_lifeCounter = findViewById(R.id.tv_S_lifeCounter);
@@ -114,8 +117,8 @@ public class Survival extends AppCompatActivity {
         });
     }
 
-    String generateUrl() {
-        String myUrl = "https://opentdb.com/api.php?amount="+questionsCounter;
+    String generateUrl(int size) {
+        String myUrl = "https://opentdb.com/api.php?amount="+size;
         if(!category.equals("Any Category"))
         {
             myUrl+="&category="+ getCategoryCode();
@@ -123,6 +126,14 @@ public class Survival extends AppCompatActivity {
         if(!difficulty.equals("Any Difficulty"))
         {
             myUrl+="&difficulty="+difficulty.toLowerCase();
+        }
+        if(!type.equals("Any Type"))
+        {
+            if(type.equals("Multiple Choice"))
+            myUrl+="&type=multiple";
+
+            if(type.equals("True/False"))
+            myUrl+="&type=boolean";
         }
         return myUrl;
     }
@@ -288,6 +299,14 @@ public class Survival extends AppCompatActivity {
         protected void onPostExecute(String strings) {
 
             dialog.dismiss();
+            if(strings.length()<50)
+            {
+                Toast.makeText(getApplicationContext(), "Non sono presenti abbastanza domande con i parametri richiesti.\nProva con altri parametri", Toast.LENGTH_LONG).show();
+                Intent survivalSetting = new Intent(Survival.this, SurvivalSetting.class);
+                startActivity(survivalSetting);
+                finish();
+                return;
+            }
             try {
                 parsingJson(strings);
                 startQuestion();

@@ -16,11 +16,13 @@ public class SurvivalSetting extends AppCompatActivity {
 
 
     String selectedCategory;
+    String selectedType;
     String selectedDifficulty;
     ArrayList<String> anyCategory;
 
 
     NumberPicker np_SS_categories;
+    NumberPicker np_SS_type;
     NumberPicker np_SS_difficulty;
 
     @Override
@@ -31,6 +33,7 @@ public class SurvivalSetting extends AppCompatActivity {
         btn_SS_start = findViewById(R.id.btn_SS_start);
 
         //valori di default
+        selectedType = "Any Type";
         selectedDifficulty = "Any Difficulty";
         selectedCategory = "Any Category";
 
@@ -48,6 +51,7 @@ public class SurvivalSetting extends AppCompatActivity {
 
                 survival.putExtra("category", selectedCategory);
                 survival.putExtra("difficulty", selectedDifficulty);
+                survival.putExtra("type", selectedType);
                 startActivity(survival);
                 finish();
             }
@@ -68,6 +72,21 @@ public class SurvivalSetting extends AppCompatActivity {
             }
         };
         np_SS_categories.setOnValueChangedListener(myValChangedListener);
+
+        np_SS_type= (NumberPicker) findViewById(R.id.np_SS_type);
+        int typesCounter = 3;
+        String[] array_types = {"Any Type","Multiple Choice","True/False"};
+        np_SS_type.setMinValue(0);
+        np_SS_type.setMaxValue(typesCounter - 1);
+        np_SS_type.setDisplayedValues(array_types);
+        np_SS_type.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        NumberPicker.OnValueChangeListener myValChangedListener_type = new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                selectedType = array_types[newVal];
+            }
+        };
+        np_SS_type.setOnValueChangedListener(myValChangedListener_type);
 
         np_SS_difficulty= (NumberPicker) findViewById(R.id.np_SS_difficulty);
         int difficultyCounter = 4;

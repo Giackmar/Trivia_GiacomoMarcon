@@ -71,7 +71,8 @@ public class Survival extends AppCompatActivity {
     Instant start;
     Instant end;
 
-    int life = 3;
+    int totLife;
+    int life;
     int score = 0;
 
 
@@ -105,6 +106,8 @@ public class Survival extends AppCompatActivity {
         //variabili per gestione delle domande-risposte
         questions = new ArrayList<>();
         currentQuestionNumber = -1;
+        totLife = 3;
+        life = totLife;
 
         try {
             loadData();
@@ -351,7 +354,7 @@ public class Survival extends AppCompatActivity {
         ) {
             timeSum += question.getElapseTime();
         }
-        double meanTime = timeSum/questionsCounter;
+        double meanTime = timeSum/(score+totLife);
         meanTime = Math.floor(meanTime * 100.0) / 100.0;
         return "Mean response time: "+meanTime+" sec";
     }

@@ -80,6 +80,7 @@ public class SurvivalSetting extends AppCompatActivity {
         np_SS_type.setMaxValue(typesCounter - 1);
         np_SS_type.setDisplayedValues(array_types);
         np_SS_type.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np_SS_type.setWrapSelectorWheel(false);
         NumberPicker.OnValueChangeListener myValChangedListener_type = new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -95,6 +96,7 @@ public class SurvivalSetting extends AppCompatActivity {
         np_SS_difficulty.setMaxValue(difficultyCounter - 1);
         np_SS_difficulty.setDisplayedValues(array_difficulty);
         np_SS_difficulty.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        np_SS_difficulty.setWrapSelectorWheel(false);
         NumberPicker.OnValueChangeListener myValChangedListener_difficulty = new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {

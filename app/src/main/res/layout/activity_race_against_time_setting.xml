@@ -108,12 +108,13 @@
         android:id="@+id/np_RATS_questionsCounter"
         android:layout_width="wrap_content"
         android:layout_height="120dp"
-        android:layout_marginStart="20dp"
         android:orientation="vertical"
         android:soundEffectsEnabled="true"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_RATS_questionsCounter"
-        app:layout_constraintStart_toEndOf="@+id/tv_RATS_questionsCounter"
-        app:layout_constraintTop_toTopOf="@+id/tv_RATS_questionsCounter" />
+        app:layout_constraintEnd_toEndOf="@+id/np_RATS_timePerQuestion"
+        app:layout_constraintStart_toStartOf="@+id/np_RATS_timePerQuestion"
+        app:layout_constraintTop_toTopOf="@+id/tv_RATS_questionsCounter"
+        app:layout_constraintVertical_bias="0.494" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

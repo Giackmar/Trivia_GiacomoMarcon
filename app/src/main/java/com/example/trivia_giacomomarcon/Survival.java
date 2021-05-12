@@ -319,7 +319,7 @@ public class Survival extends AppCompatActivity {
             dialog.dismiss();
             if(strings.length()<50)
             {
-                Toast.makeText(getApplicationContext(), "Non sono presenti abbastanza domande con i parametri richiesti.\nProva con altri parametri", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Non sono presenti abbastanza domande con i parametri richiesti\nProva cambiando alcuni parametri", Toast.LENGTH_LONG).show();
                 Intent survivalSetting = new Intent(Survival.this, SurvivalSetting.class);
                 startActivity(survivalSetting);
                 finish();
@@ -348,22 +348,30 @@ public class Survival extends AppCompatActivity {
             String correct_answer = questionJson.getString("correct_answer");
             JSONArray incorrect_answers_json = questionJson.getJSONArray("incorrect_answers");
             ArrayList<String> incorrect_answers = new ArrayList<>();
-            for (String s:incorrect_answers
-            ) {
-                s = unescapeHtml4(s);
-            }
-            category = unescapeHtml4(category);
-            type = unescapeHtml4(type);
-            difficulty = unescapeHtml4(difficulty);
-            question = unescapeHtml4(question);
-            correct_answer = unescapeHtml4(correct_answer);
-            for(int a=0; a<incorrect_answers_json.length();a++)
+            for(int a=0;a<incorrect_answers_json.length();a++)
             {
-                incorrect_answers.add(incorrect_answers_json.getString(a));
+                incorrect_answers.add(incorrect_answers_json.get(a).toString());
             }
+            for(int a=0; a<incorrect_answers.size();a++)
+            {
+                String newString = htmlDecoder(incorrect_answers.get(0));
+                incorrect_answers.remove(0);
+                incorrect_answers.add(newString);
+            }
+            category = htmlDecoder(category);
+            type = htmlDecoder(type);
+            difficulty = htmlDecoder(difficulty);
+            question = htmlDecoder(question);
+            correct_answer = htmlDecoder(correct_answer);
+            ArrayList<String> a = incorrect_answers;
             Question myQuestion = new Question(category,type,difficulty,question,correct_answer,incorrect_answers);
             questions.add(myQuestion);
         }
+    }
+
+    public String htmlDecoder(String myString)
+    {
+        return unescapeHtml4(myString).replace("&amp;","&").replace("&gt;",">").replace("&lt;","<").replace("&quot;","\"");
     }
 
     public void loadQuestion() {

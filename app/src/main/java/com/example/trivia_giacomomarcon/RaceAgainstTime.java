@@ -223,15 +223,53 @@ public class RaceAgainstTime extends AppCompatActivity {
         timer.cancel();
         if(currentQuestionNumber==questionsCounter-1)
         {
-            loadStatsLayout();
+            loadStatsLayout(code);
             return;
         }
         startQuestion();
     }
 
 
-    void loadStatsLayout() {
+    void loadStatsLayout(int code) {
         setContentView(R.layout.activity_race_against_time_stats);
+
+        //------------------------------------------------------------------------------------
+        int color = 0;
+        if(code==1)
+        {
+            color = Color.GREEN;
+        }else if(code==2){
+            color = Color.RED;
+        }else if(code==0){
+            color = Color.BLUE;
+        }
+        View view_RATS = findViewById(R.id.view_RATS);
+        ValueAnimator opening_anim = ValueAnimator.ofArgb(Color.BLACK, color);
+        opening_anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                view_RATS.setBackgroundColor((Integer)valueAnimator.getAnimatedValue());
+            }
+        });
+        ValueAnimator closing_anim = ValueAnimator.ofArgb(color, Color.BLACK);
+        closing_anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                view_RATS.setBackgroundColor((Integer)valueAnimator.getAnimatedValue());
+            }
+        });
+        opening_anim.setDuration(100);
+        closing_anim.setDuration(300);
+
+        opening_anim.start();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                closing_anim.start();
+            }
+        }, 200);
+        //------------------------------------------------------------------------------------
 
         tv_RATST_title = findViewById(R.id.tv_RATST_title);
         tv_RATST_meanResponseTime = findViewById(R.id.tv_RATST_meanResponseTime);

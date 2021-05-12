@@ -166,6 +166,8 @@ public class Survival extends AppCompatActivity {
             color = Color.GREEN;
         }else if(code==2){
             color = Color.RED;
+        }else if(code==0){
+            color = Color.BLUE;
         }
 
         ValueAnimator opening_anim = ValueAnimator.ofArgb(Color.BLACK, color);
@@ -285,6 +287,36 @@ public class Survival extends AppCompatActivity {
 
     void loadStatsLayout() {
         setContentView(R.layout.activity_survival_stats);
+
+        //------------------------------------------------------------------------------------
+        int color = Color.RED;
+        View view_SS = findViewById(R.id.view_SS);
+        ValueAnimator opening_anim = ValueAnimator.ofArgb(Color.BLACK, color);
+        opening_anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                view_SS.setBackgroundColor((Integer)valueAnimator.getAnimatedValue());
+            }
+        });
+        ValueAnimator closing_anim = ValueAnimator.ofArgb(color, Color.BLACK);
+        closing_anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                view_SS.setBackgroundColor((Integer)valueAnimator.getAnimatedValue());
+            }
+        });
+        opening_anim.setDuration(100);
+        closing_anim.setDuration(300);
+
+        opening_anim.start();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                closing_anim.start();
+            }
+        }, 200);
+        //------------------------------------------------------------------------------------
 
         tv_SST_title = findViewById(R.id.tv_SST_title);
         tv_SST_meanResponseTime = findViewById(R.id.tv_SST_meanResponseTime);

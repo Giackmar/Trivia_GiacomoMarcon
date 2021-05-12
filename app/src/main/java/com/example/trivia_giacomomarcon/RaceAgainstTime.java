@@ -1,10 +1,13 @@
 package com.example.trivia_giacomomarcon;
 
+import android.animation.ValueAnimator;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,6 +35,8 @@ import java.util.ArrayList;
 import static org.apache.commons.text.StringEscapeUtils.unescapeHtml4;
 
 public class RaceAgainstTime extends AppCompatActivity {
+
+    View view_RAT;
 
     //parametri input da "impostazioni"
     String category;
@@ -64,6 +69,8 @@ public class RaceAgainstTime extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_race_against_time);
+
+        view_RAT = findViewById(R.id.view_RAT);
 
         //carico i dati passati dall'altra activity
         Intent intent = getIntent();
@@ -101,9 +108,11 @@ public class RaceAgainstTime extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (winOrLose(questions.get(currentQuestionNumber).getAnswers().get(position))) {
+                    anim(1);
                     endQuestion(1);
                 }
                 else
+                    anim(2);
                     endQuestion(2);
             }
         });
@@ -122,6 +131,44 @@ public class RaceAgainstTime extends AppCompatActivity {
                 return i+9;
         }
         return 0;
+    }
+
+    void anim(int code){
+        int color = 0;
+        if(code==1)
+        {
+            color = Color.GREEN;
+        }else if(code==2){
+            color = Color.RED;
+        }else if(code==0){
+            color = Color.BLUE;
+        }
+
+        ValueAnimator opening_anim = ValueAnimator.ofArgb(Color.BLACK, color);
+        opening_anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                view_RAT.setBackgroundColor((Integer)valueAnimator.getAnimatedValue());
+            }
+        });
+        ValueAnimator closing_anim = ValueAnimator.ofArgb(color, Color.BLACK);
+        closing_anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                view_RAT.setBackgroundColor((Integer)valueAnimator.getAnimatedValue());
+            }
+        });
+        opening_anim.setDuration(100);
+        closing_anim.setDuration(300);
+
+        opening_anim.start();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                closing_anim.start();
+            }
+        }, 200);
     }
 
     void loadCategory() {
@@ -163,6 +210,7 @@ public class RaceAgainstTime extends AppCompatActivity {
 
             public void onFinish() {
                 tv_RAT_timer.setText("done!");
+                anim(0);
                 endQuestion(0);
             }
 

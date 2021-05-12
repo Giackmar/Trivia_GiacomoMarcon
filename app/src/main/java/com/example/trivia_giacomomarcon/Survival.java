@@ -238,19 +238,7 @@ public class Survival extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     void endQuestion(int code) {
-        if(code==2) {
-            life--;
-            tv_S_lifeCounter.setText("Life "+life);
-            if(life==0) {
-                loadStatsLayout();
-                return;
-            }
-        }
-        else
-        {
-            score++;
-            tv_S_score.setText("Score "+score);
-        }
+        tv_S_lifeCounter.setText("Life "+life);
         questions.get(currentQuestionNumber).setCode(code);
         end = Instant.now();
         Duration elapsedTime_duration = Duration.between(start,end);
@@ -279,13 +267,25 @@ public class Survival extends AppCompatActivity {
         }
         elapsedTime = Double.sum(elapsedTime,minutes);
         questions.get(currentQuestionNumber).setElapseTime(elapsedTime);
+        if(code!=1) {
+            life--;
+            if (life == 0) {
+                loadStatsLayout();
+                return;
+            }
+        }
+        else {
+            score++;
+            tv_S_score.setText("Score " + score);
+        }
         if(currentQuestionNumber==questionsCounter-1)
         {
             loadStatsLayout();
             return;
         }
         startQuestion();
-    }
+        }
+
 
 
     void loadStatsLayout() {

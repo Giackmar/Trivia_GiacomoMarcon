@@ -31,7 +31,8 @@
                 android:paddingRight="10dp"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:justificationMode="inter_word"/>
 
             <TextView
                 android:id="@+id/textView"

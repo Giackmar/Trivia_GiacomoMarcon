@@ -468,7 +468,6 @@ public class Survival extends AppCompatActivity {
             difficulty = htmlDecoder(difficulty);
             question = htmlDecoder(question);
             correct_answer = htmlDecoder(correct_answer);
-            ArrayList<String> a = incorrect_answers;
             Question myQuestion = new Question(category,type,difficulty,question,correct_answer,incorrect_answers);
             questions.add(myQuestion);
         }

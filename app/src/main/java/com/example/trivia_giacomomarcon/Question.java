@@ -1,6 +1,7 @@
 package com.example.trivia_giacomomarcon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Question {
 
@@ -25,6 +26,7 @@ public class Question {
         this.correct_answer = correct_answer;
         this.answers = answers;
         this.answers.add(correct_answer);
+        Collections.shuffle(answers);
     }
 
     public String getCategory() {

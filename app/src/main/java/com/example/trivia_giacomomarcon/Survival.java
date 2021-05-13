@@ -334,6 +334,9 @@ public class Survival extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent restart = new Intent(Survival.this, SurvivalSetting.class);
+                restart.putExtra("category", category);
+                restart.putExtra("difficulty", difficulty);
+                restart.putExtra("type", type);
                 startActivity(restart);
                 finish();
             }
@@ -504,8 +507,11 @@ public class Survival extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent survivalSetting = new Intent(Survival.this, SurvivalSetting.class);
-        startActivity(survivalSetting);
+        Intent restart = new Intent(Survival.this, SurvivalSetting.class);
+        restart.putExtra("category", category);
+        restart.putExtra("difficulty", difficulty);
+        restart.putExtra("type", type);
+        startActivity(restart);
         finish();
     }
 }

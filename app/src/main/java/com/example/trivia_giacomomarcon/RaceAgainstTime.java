@@ -284,6 +284,9 @@ public class RaceAgainstTime extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent restart = new Intent(RaceAgainstTime.this, RaceAgainstTimeSetting.class);
+                restart.putExtra("category", category);
+                restart.putExtra("questionsCounter", questionsCounter);
+                restart.putExtra("timePerQuestion", timePerQuestion);
                 startActivity(restart);
                 finish();
             }
@@ -466,8 +469,11 @@ public class RaceAgainstTime extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent raceAgainstTimeSetting = new Intent(RaceAgainstTime.this, RaceAgainstTimeSetting.class);
-        startActivity(raceAgainstTimeSetting);
+        Intent restart = new Intent(RaceAgainstTime.this, RaceAgainstTimeSetting.class);
+        restart.putExtra("category", category);
+        restart.putExtra("questionsCounter", questionsCounter);
+        restart.putExtra("timePerQuestion", timePerQuestion);
+        startActivity(restart);
         finish();
     }
 }

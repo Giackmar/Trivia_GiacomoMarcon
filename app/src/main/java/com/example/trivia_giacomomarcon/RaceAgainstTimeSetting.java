@@ -30,12 +30,19 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_race_against_time_setting);
 
+        Intent intent = getIntent();
+        selectedCategory = intent.getStringExtra("category");
+        timePerQuestion = intent.getIntExtra("timePerQuestion",10);
+        questionsCounter = intent.getIntExtra("questionsCounter",10);
+        if(selectedCategory==null) {
+            selectedCategory = "Any Category";
+        }
         btn_RATS_start = findViewById(R.id.btn_RATS_start);
 
         //valori di default
-        questionsCounter = 10;
+        /*questionsCounter = 10;
         timePerQuestion = 10;
-        selectedCategory = "Any Category";
+        selectedCategory = "Any Category";*/
 
         anyCategory = new ArrayList<>();
 
@@ -71,6 +78,7 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
                selectedCategory = stringArray[newVal];
             }
         };
+        np_RATS_categories.setValue(anyCategory.indexOf(selectedCategory));
         np_RATS_categories.setOnValueChangedListener(myValChangedListener);
 
         np_RATS_questionsCounter= (NumberPicker) findViewById(R.id.np_RATS_questionsCounter);
@@ -93,7 +101,7 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
                 questionsCounter = arrayInt_questionsCounter[newVal];
             }
         };
-        np_RATS_questionsCounter.setValue(9);
+        np_RATS_questionsCounter.setValue(questionsCounter-1);
         np_RATS_questionsCounter.setOnValueChangedListener(myValChangedListener_questionsCounter);
 
         np_RATS_timePerQuestion= (NumberPicker) findViewById(R.id.np_RATS_timePerQuestion);
@@ -116,7 +124,7 @@ public class RaceAgainstTimeSetting extends AppCompatActivity {
                 timePerQuestion = arrayInt_timePerQuestion[newVal];
             }
         };
-        np_RATS_timePerQuestion.setValue(9);
+        np_RATS_timePerQuestion.setValue(timePerQuestion-1);
         np_RATS_timePerQuestion.setOnValueChangedListener(myValChangedListener_timePerQuestion);
     }
 

@@ -9,6 +9,7 @@ import android.widget.NumberPicker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SurvivalSetting extends AppCompatActivity {
 
@@ -30,12 +31,24 @@ public class SurvivalSetting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survival_setting);
 
+        Intent intent = getIntent();
+        selectedCategory = intent.getStringExtra("category");
+        selectedType = intent.getStringExtra("type");
+        selectedDifficulty = intent.getStringExtra("difficulty");
         btn_SS_start = findViewById(R.id.btn_SS_start);
 
-        //valori di default
-        selectedType = "Any Type";
-        selectedDifficulty = "Any Difficulty";
-        selectedCategory = "Any Category";
+        if(selectedDifficulty==null)
+        {
+            selectedDifficulty = "Any Difficulty";
+        }
+        if(selectedCategory==null)
+        {
+            selectedCategory = "Any Category";
+        }
+        if(selectedType==null)
+        {
+            selectedType = "Any Type";
+        }
 
         anyCategory = new ArrayList<>();
 
@@ -71,6 +84,7 @@ public class SurvivalSetting extends AppCompatActivity {
                 selectedCategory = stringArray[newVal];
             }
         };
+        np_SS_categories.setValue(anyCategory.indexOf(selectedCategory));
         np_SS_categories.setOnValueChangedListener(myValChangedListener);
 
         np_SS_type= (NumberPicker) findViewById(R.id.np_SS_type);
@@ -87,6 +101,8 @@ public class SurvivalSetting extends AppCompatActivity {
                 selectedType = array_types[newVal];
             }
         };
+        ArrayList<String> list_types = new ArrayList<>(Arrays.asList(array_types));
+        np_SS_type.setValue(list_types.indexOf(selectedType));
         np_SS_type.setOnValueChangedListener(myValChangedListener_type);
 
         np_SS_difficulty= (NumberPicker) findViewById(R.id.np_SS_difficulty);
@@ -103,6 +119,8 @@ public class SurvivalSetting extends AppCompatActivity {
                 selectedDifficulty = array_difficulty[newVal];
             }
         };
+        ArrayList<String> list_difficulty = new ArrayList<>(Arrays.asList(array_difficulty));
+        np_SS_difficulty.setValue(list_difficulty.indexOf(selectedDifficulty));
         np_SS_difficulty.setOnValueChangedListener(myValChangedListener_difficulty);
     }
 

@@ -2,38 +2,63 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Theme.Trivia_GiacomoMarcon"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
     tools:context=".MainActivity">
 
     <View
-        android:id="@+id/view5"
+        android:id="@+id/view4"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="15dp"
         android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/tv_AM_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btn_RaceAgainstTime"
         tools:layout_editor_absoluteX="0dp" />
 
     <View
-        android:id="@+id/view4"
+        android:id="@+id/view7"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="5dp"
+        android:layout_height="0.1dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/tv_AM_title"
+        app:layout_constraintBottom_toTopOf="@+id/btn_Survival"
         tools:layout_editor_absoluteX="0dp" />
+
+    <View
+        android:id="@+id/view8"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/btn_Survival"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <View
+        android:id="@+id/view6"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/btn_RaceAgainstTime"
+        tools:layout_editor_absoluteX="16dp" />
 
     <TextView
         android:id="@+id/tv_AM_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="THE QUESTIONS GAME"
+        android:layout_marginTop="30dp"
+        android:text="  THE QUESTIONS GAME  "
         android:textColor="#FFFFFF"
-        android:textSize="25sp"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,29 +66,33 @@
 
     <Button
         android:id="@+id/btn_RaceAgainstTime"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:backgroundTint="#62678C"
         android:text="Race Against Time"
         android:textColor="#FFFFFF"
         android:textColorHighlight="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearance="@style/MaterialAlertDialog.MaterialComponents.Title.Icon.CenterStacked" />
 
     <Button
         android:id="@+id/btn_Survival"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:backgroundTint="#62678C"
         android:text="SURVIVAL"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/btn_RaceAgainstTime"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_RaceAgainstTime" />
+        app:layout_constraintStart_toStartOf="@+id/btn_RaceAgainstTime"
+        app:layout_constraintTop_toBottomOf="@+id/btn_RaceAgainstTime"
+        app:shapeAppearance="@style/MaterialAlertDialog.MaterialComponents.Title.Icon.CenterStacked" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,7 +14,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="30dp"
-        android:backgroundTint="#FF3700B3"
+        android:backgroundTint="#3000BD"
         android:text="Start"
         android:textColor="@color/white"
         android:textColorHighlight="@android:color/white"
